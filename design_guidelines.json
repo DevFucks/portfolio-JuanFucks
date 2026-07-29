@@ -1,0 +1,139 @@
+{
+  "project_context": {
+    "domain": "Developer Portfolio",
+    "target_audience": "Tech Recruiters, Tech Leads",
+    "developer_name": "Juan de Sousa Fucks",
+    "developer_role": "Frontend / Full Stack Developer",
+    "theme_preference": "Dark mode futurista com efeitos neon, glitch e partículas",
+    "languages": ["PT-BR", "EN", "ES"]
+  },
+  "theme_and_archetype": {
+    "theme": "DARK",
+    "archetype": "ARCHETYPE 7: ELECTRIC & NEON",
+    "e1_twist": "Black-on-Black layers to ground the neon. Avoid muddy grays. The UI must feel like a high-end command terminal, mixing raw brutalist geometry with delicate, piercing neon accents. No generic purple gradients.",
+    "surface_strategy": "Retro-Futurism (The Terminal Look)"
+  },
+  "color_palette": {
+    "backgrounds": {
+      "void_black": "#030305",
+      "matte_charcoal": "#0C0C10",
+      "glass_panel": "rgba(12, 12, 16, 0.6)"
+    },
+    "borders": {
+      "subtle": "#1A1A24",
+      "active": "rgba(0, 240, 255, 0.3)"
+    },
+    "neons": {
+      "primary_cyan": "#00F0FF",
+      "matrix_green": "#39FF14",
+      "glitch_magenta": "#FF003C"
+    },
+    "text": {
+      "primary": "#EDEDED",
+      "secondary": "#8A8A93",
+      "terminal_accent": "#39FF14"
+    }
+  },
+  "typography": {
+    "fonts": {
+      "heading": "Unbounded, sans-serif",
+      "accent_mono": "JetBrains Mono, monospace",
+      "body": "IBM Plex Sans, sans-serif"
+    },
+    "hierarchy": {
+      "h1": "text-5xl md:text-7xl font-black tracking-tighter uppercase",
+      "h2": "text-3xl md:text-5xl font-bold tracking-tight uppercase text-white",
+      "h3": "text-xl md:text-2xl font-medium tracking-tight",
+      "overline": "text-xs font-mono uppercase tracking-[0.2em] text-[#00F0FF]",
+      "body": "text-base md:text-lg leading-relaxed text-[#8A8A93]",
+      "code": "text-sm font-mono text-[#39FF14]"
+    }
+  },
+  "layout_and_spacing": {
+    "spacing_system": {
+      "section_padding": "py-24 md:py-32",
+      "container_padding": "px-6 md:px-12 lg:px-24",
+      "element_gap": "gap-8 md:gap-12"
+    },
+    "grid_strategy": "Bento 'Tetris' Grid (Mode A). Prioritize asymmetry. Mix col-span-4, col-span-8, and col-span-full blocks. Leave strategic negative space.",
+    "card_surfaces": "1px solid border-[#1A1A24] bg-[#0C0C10]/80 backdrop-blur-md. Hover states must lift and trigger neon border glow (border-[#00F0FF]/50)."
+  },
+  "motion_and_effects": {
+    "glitch_effect": {
+      "trigger": "hover or scroll-trigger on headings",
+      "css_technique": "text-shadow with #00F0FF and #FF003C offsets, mixed with clip-path animations. Keyframes switching fast to simulate digital artifacting."
+    },
+    "particles": {
+      "library": "tsparticles",
+      "config": "Minimalist tiny cyan and white dots floating slowly in the background of the Hero and Skills sections. Must not overwhelm content."
+    },
+    "custom_cursor": {
+      "library": "framer-motion",
+      "behavior": "A small white dot that follows the mouse, expanding to a larger bordered circle with mix-blend-mode: difference when hovering over interactive elements."
+    },
+    "marquee": {
+      "library": "react-fast-marquee",
+      "usage": "Massive outlined text (text-8xl, transparent text, 1px white/cyan stroke) scrolling slowly behind the Skills or Projects section to add 'Kinetic Texture'."
+    },
+    "scroll_animations": {
+      "library": "framer-motion",
+      "behavior": "Elements fade in and translate up (y: 20 -> 0) sequentially using staggerChildren on scroll. Use lenis for smooth momentum scrolling."
+    }
+  },
+  "section_breakdown": {
+    "header": {
+      "layout": "Fixed top, z-50, backdrop-blur-xl bg-[#030305]/70 border-b border-[#1A1A24].",
+      "content": "Logo (JF or `<Juan/>`), Desktop Navigation Links, Language Toggle (Shadcn DropdownMenu for PT/EN/ES)."
+    },
+    "hero": {
+      "layout": "100vh flex flex-col justify-center items-start. Asymmetric split if using photo.",
+      "content": "Animated 'Hi, I am' terminal text. Developer name with Glitch effect. Role 'Frontend / Full Stack Developer' with blinking cursor. Particles background. Scroll-down indicator."
+    },
+    "about": {
+      "layout": "Bento Grid. Left: Developer Photo (monochrome with cyan highlights). Right: Text bio and tech stats.",
+      "content": "Bio outlining IFSP background and São Paulo location. Highlight frontend passion."
+    },
+    "skills": {
+      "layout": "Kinetic Marquee background with a foreground grid of glassmorphic pills.",
+      "content": "ReactJS, Next.js, React Native, Vue, TypeScript, Redux, Tailwind, PHP, Laravel, Node.js, Express, MySQL, MongoDB, Redis, Docker, Linux, Git, WebSockets, Jest."
+    },
+    "experience": {
+      "layout": "Vertical timeline. The central line is a glowing neon trace.",
+      "content": "Atmo Digital (06/2022 - Present). Full Stack Dev. Bullet points focusing on Live Streaming, Live Commerce, QR Meal Control. Cards reveal on scroll."
+    },
+    "projects": {
+      "layout": "Asymmetrical featured blocks. One massive 'Hero' project, two smaller supporting projects.",
+      "content": "Project titles, tech stack overlines, hover-to-reveal links/Github."
+    },
+    "contact": {
+      "layout": "Massive CTA taking up significant viewport height.",
+      "content": "Terminal-style prompt 'Run execution: contact.sh'. Button triggering mailto:juanfuks@hotmail.com. Links to LinkedIn and GitHub. Phone: (13) 99111-7406."
+    }
+  },
+  "media_assets": {
+    "developer_photo": {
+      "url": "https://images.unsplash.com/photo-1508179522353-11ba468c4a1c?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjAzMzV8MHwxfHNlYXJjaHwxfHxuZW9uJTIwbGlnaHRpbmclMjBwb3J0cmFpdCUyMGRhcmt8ZW58MHx8fHwxNzgwODg2MTQ3fDA&ixlib=rb-4.1.0&q=85",
+      "usage": "About section profile. Filter it to have high contrast, perhaps grayscale with a cyan overlay."
+    },
+    "abstract_tech_texture": {
+      "url": "https://images.unsplash.com/photo-1626908013351-800ddd734b8a?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA1MTN8MHwxfHNlYXJjaHwzfHxhYnN0cmFjdCUyMGRhcmslMjB0ZWNoJTIwbmVvbnxlbnwwfHx8fDE3ODA4ODYxNDd8MA&ixlib=rb-4.1.0&q=85",
+      "usage": "Use as a background layer with low opacity (10%) and mix-blend-mode: screen behind the hero or CTA section."
+    },
+    "project_placeholder_1": {
+      "url": "https://images.unsplash.com/photo-1579567761406-4684ee0c75b6?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA1MTN8MHwxfHNlYXJjaHwxfHxhYnN0cmFjdCUyMGRhcmslMjB0ZWNoJTIwbmVvbnxlbnwwfHx8fDE3ODA4ODYxNDd8MA&ixlib=rb-4.1.0&q=85",
+      "usage": "Project 1 cover image."
+    },
+    "project_placeholder_2": {
+      "url": "https://images.unsplash.com/photo-1673347765440-ce248bebc94d?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA1MTN8MHwxfHNlYXJjaHwyfHxhYnN0cmFjdCUyMGRhcmslMjB0ZWNoJTIwbmVvbnxlbnwwfHx8fDE3ODA4ODYxNDd8MA&ixlib=rb-4.1.0&q=85",
+      "usage": "Project 2 cover image."
+    }
+  },
+  "testing_attributes": {
+    "rule": "All interactive and key informational elements MUST include a data-testid attribute to facilitate robust automated testing.",
+    "convention": "kebab-case, role-based. e.g., data-testid='hero-contact-button', data-testid='language-toggle'."
+  },
+  "components_strategy": {
+    "ui_library": "Use generic HTML + Tailwind for structural layouts. Use Shadcn components heavily customized (remove vercel-look) for interactive logic (DropdownMenu for i18n, Dialog, etc.).",
+    "icons": "Use lucide-react or phosphor-icons. Keep stroke widths consistent (1.5px to 2px max)."
+  }
+}

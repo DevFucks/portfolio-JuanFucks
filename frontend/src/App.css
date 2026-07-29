@@ -1,0 +1,4 @@
+/* Reset legacy template styles. Portfolio uses index.css design system. */
+.App {
+  min-height: 100vh;
+}
