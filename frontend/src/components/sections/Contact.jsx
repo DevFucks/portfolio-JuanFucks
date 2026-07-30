@@ -172,7 +172,7 @@ export default function Contact() {
             </div>
           </a>
           <a
-            href="https://github.com/juanfuks"
+            href="https://github.com/DevFucks/portfolio-JuanFucks"
             target="_blank"
             rel="noopener noreferrer"
             data-testid="contact-github"
@@ -187,7 +187,7 @@ export default function Contact() {
             </div>
           </a>
           <a
-            href="https://www.linkedin.com/in/juan-de-sousa-fucks"
+            href="https://www.linkedin.com/in/juan-fucks-1a8062123/?skipRedirect=true&enhance=null"
             target="_blank"
             rel="noopener noreferrer"
             data-testid="contact-linkedin"

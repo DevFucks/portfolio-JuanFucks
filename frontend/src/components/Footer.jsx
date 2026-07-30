@@ -26,7 +26,7 @@ export default function Footer() {
           <div className="flex flex-col md:flex-row md:items-center gap-4">
             <div className="flex items-center gap-3">
               <a
-                href="https://github.com/juanfuks"
+                href="https://github.com/DevFucks/portfolio-JuanFucks"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="GitHub"
@@ -35,7 +35,7 @@ export default function Footer() {
                 <Github size={15} />
               </a>
               <a
-                href="https://www.linkedin.com/in/juan-de-sousa-fucks"
+                href="https://www.linkedin.com/in/juan-fucks-1a8062123/?skipRedirect=true&enhance=null"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="LinkedIn"

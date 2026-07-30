@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { GraduationCap, Languages, MapPin, Sparkles } from "lucide-react";
 import { useLang } from "../../contexts/LangContext";
 import useReveal from "../../hooks/useReveal";
+import profilePhoto from "../../assets/images/profile.png";
 
 export default function About() {
   const { t } = useLang();
@@ -42,8 +43,8 @@ export default function About() {
           >
             <div className="relative card-neon aspect-[3/4] overflow-hidden group">
               <img
-                src="https://images.unsplash.com/photo-1508179522353-11ba468c4a1c?crop=entropy&cs=srgb&fm=jpg&q=85&w=600"
-                alt="Juan de Sousa Fucks"
+                src={profilePhoto}
+                alt="Juan Fucks"
                 className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 mix-blend-luminosity group-hover:mix-blend-normal"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-[#030305] via-transparent to-transparent" />

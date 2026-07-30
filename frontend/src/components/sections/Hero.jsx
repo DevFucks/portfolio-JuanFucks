@@ -66,12 +66,12 @@ export default function Hero() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.15 }}
               data-testid="hero-name"
-              aria-label="Juan de Sousa Fucks"
+              aria-label="Juan Fucks"
               className="font-heading font-black uppercase tracking-tighter leading-[0.9] text-white"
               style={{ fontSize: "clamp(2.5rem, 8vw, 6.5rem)" }}
             >
-              <span className="glitch block" data-text="Juan de Sousa">
-                Juan de Sousa
+              <span className="glitch block" data-text="Juan">
+                Juan
               </span>
               <span className="block text-cyan text-glow-cyan glitch" data-text="Fucks.">
                 Fucks.
@@ -134,7 +134,7 @@ export default function Hero() {
               className="mt-10 flex items-center gap-6"
             >
               <a
-                href="https://github.com/juanfuks"
+                href="https://github.com/DevFucks/portfolio-JuanFucks"
                 target="_blank"
                 rel="noopener noreferrer"
                 data-testid="hero-github"
@@ -144,7 +144,7 @@ export default function Hero() {
                 GitHub
               </a>
               <a
-                href="https://www.linkedin.com/in/juan-de-sousa-fucks"
+                href="https://www.linkedin.com/in/juan-fucks-1a8062123/?skipRedirect=true&enhance=null"
                 target="_blank"
                 rel="noopener noreferrer"
                 data-testid="hero-linkedin"
