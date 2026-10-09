@@ -58,5 +58,5 @@ design_guidelines.json # referência visual do tema
 
 ## Deploy
 
-A branch `master` é a de produção na Vercel. Qualquer outra branch enviada ao GitHub
+A branch `main` é a de produção na Vercel. Qualquer outra branch enviada ao GitHub
 gera um deploy de preview — use isso para revisar antes do merge.

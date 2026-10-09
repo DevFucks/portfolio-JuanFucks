@@ -1,6 +1,6 @@
 # Portfólio do Juan — guia para o Claude
 
-Site de portfólio (React 19 + CRA/CRACO + Tailwind 3) em `frontend/`. Produção: branch `master` na Vercel
+Site de portfólio (React 19 + CRA/CRACO + Tailwind 3) em `frontend/`. Produção: branch `main` na Vercel
 (https://portfolio-juan-fucks.vercel.app). Responder sempre em português brasileiro.
 
 ## Fonte dos fatos (não inventar)
@@ -34,4 +34,4 @@ Regras:
 
 1. `cd frontend && CI=true npm run build` — tem de compilar sem warnings.
 2. Conferir no navegador em 320, 390, 820, 1024 e 1440 px, nos 3 idiomas, sem scroll horizontal.
-3. Não fazer push direto na `master`: subir uma branch, revisar o preview da Vercel e só então fazer o merge.
+3. Não fazer push direto na `main`: subir uma branch, revisar o preview da Vercel e só então fazer o merge.
