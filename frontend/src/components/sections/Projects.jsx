@@ -1,20 +1,13 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { ArrowUpRight, Github } from "lucide-react";
+import { Lock } from "lucide-react";
 import { useLang } from "../../contexts/LangContext";
-
-const COVERS = [
-  "https://images.unsplash.com/photo-1579567761406-4684ee0c75b6?crop=entropy&cs=srgb&fm=jpg&q=85&w=1000",
-  "https://images.unsplash.com/photo-1673347765440-ce248bebc94d?crop=entropy&cs=srgb&fm=jpg&q=85&w=1000",
-  "https://images.unsplash.com/photo-1626908013351-800ddd734b8a?crop=entropy&cs=srgb&fm=jpg&q=85&w=1000",
-  "https://images.unsplash.com/photo-1518770660439-4636190af475?crop=entropy&cs=srgb&fm=jpg&q=85&w=1000",
-  "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?crop=entropy&cs=srgb&fm=jpg&q=85&w=1000",
-  "https://images.unsplash.com/photo-1581090700227-1e37b190418e?crop=entropy&cs=srgb&fm=jpg&q=85&w=1000",
-];
+import ProjectCover from "../ProjectCover";
+import { PROJECTS, PROJECT_LAYOUTS } from "../../data/projects";
 
 export default function Projects() {
   const { t } = useLang();
-  const items = t("projects.items");
+  const total = String(PROJECTS.length).padStart(2, "0");
 
   return (
     <section
@@ -30,7 +23,7 @@ export default function Projects() {
             <div className="section-label mb-6">{t("projects.label")}</div>
             <h2
               className="font-heading font-bold uppercase tracking-tighter text-white"
-              style={{ fontSize: "clamp(2rem, 5.5vw, 4.5rem)", lineHeight: 1.05 }}
+              style={{ fontSize: "clamp(1.75rem, 5.5vw, 4.5rem)", lineHeight: 1.05 }}
               data-testid="projects-title"
             >
               {t("projects.title")}
@@ -43,47 +36,39 @@ export default function Projects() {
 
         {/* Bento grid */}
         <div className="grid grid-cols-12 gap-5">
-          {items.map((p, i) => {
-            // Asymmetric layout
-            const layouts = [
-              "col-span-12 md:col-span-8 row-span-2",
-              "col-span-12 md:col-span-4",
-              "col-span-12 md:col-span-4",
-              "col-span-12 md:col-span-6",
-              "col-span-12 md:col-span-6",
-              "col-span-12 md:col-span-12",
-            ];
+          {PROJECTS.map((project, i) => {
+            const p = t(`projects.items.${project.key}`);
             const isFeatured = i === 0;
             return (
               <motion.article
-                key={i}
+                key={project.key}
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: i * 0.06 }}
+                transition={{ duration: 0.6, delay: (i % 3) * 0.06 }}
                 viewport={{ once: true, amount: 0.15 }}
-                className={`${layouts[i]} card-neon group relative overflow-hidden`}
-                data-testid={`project-card-${i}`}
+                className={`${PROJECT_LAYOUTS[i] || "col-span-12 md:col-span-6"} card-neon group relative overflow-hidden flex flex-col`}
+                data-testid={`project-card-${project.key}`}
               >
-                {/* Cover */}
-                <div className={`relative overflow-hidden ${isFeatured ? "h-72 md:h-80" : "h-48"}`}>
-                  <img
-                    src={COVERS[i % COVERS.length]}
-                    alt={p.title}
-                    loading="lazy"
-                    className="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#0c0c10] via-[#0c0c10]/30 to-transparent" />
-                  <div className="absolute inset-0 bg-cyan/10 mix-blend-overlay group-hover:opacity-0 transition-opacity" />
-                  {/* Corner index */}
-                  <span className="absolute top-4 left-4 font-mono text-[10px] uppercase tracking-[0.25em] text-cyan bg-[#030305]/70 px-2 py-1 border border-cyan/30">
-                    {String(i + 1).padStart(2, "0")} / {String(items.length).padStart(2, "0")}
+                {/* Barra do card: índice + origem (fora da capa, para não cobrir a arte) */}
+                <div className="flex items-center justify-between gap-3 px-4 py-2.5 border-b border-[#1a1a24] font-mono text-[10px] uppercase">
+                  <span className="tracking-[0.25em] text-cyan">
+                    {String(i + 1).padStart(2, "0")} / {total}
                   </span>
-                  <span className="absolute top-4 right-4 w-9 h-9 grid place-items-center bg-[#030305]/80 border border-[#1a1a24] group-hover:border-cyan group-hover:text-cyan transition-all">
-                    <ArrowUpRight size={16} />
+                  <span
+                    className={`tracking-[0.18em] text-right ${
+                      project.kind === "atmo" ? "text-[#8a8a93]" : "text-green-neon"
+                    }`}
+                  >
+                    {t(`projects.kinds.${project.kind}`)}
                   </span>
                 </div>
 
-                {/* Content */}
+                {/* Capa */}
+                <div className={`relative ${isFeatured ? "h-56 md:h-72 lg:h-auto lg:flex-1 lg:min-h-[20rem]" : "h-44"}`}>
+                  <ProjectCover projectKey={project.key} className="absolute inset-0" />
+                </div>
+
+                {/* Conteúdo */}
                 <div className="p-6">
                   <div className="font-mono text-[11px] uppercase tracking-[0.22em] text-cyan mb-2">
                     {p.category}
@@ -95,24 +80,45 @@ export default function Projects() {
                   >
                     {p.title}
                   </h3>
-                  <p className="text-[#8a8a93] text-sm leading-relaxed mb-4">
+                  <p className={`text-[#8a8a93] leading-relaxed mb-4 ${isFeatured ? "text-sm md:text-base max-w-2xl" : "text-sm"}`}>
                     {p.description}
                   </p>
-                  <div className="flex flex-wrap gap-1.5">
-                    {p.tags.map((tag) => (
-                      <span
+
+                  {p.metrics.length > 0 && (
+                    <div className="flex flex-wrap gap-x-8 gap-y-3 mb-5">
+                      {p.metrics.map((m) => (
+                        <div key={m.label}>
+                          <div className={`font-heading font-black text-cyan text-glow-cyan ${isFeatured ? "text-2xl md:text-3xl" : "text-lg"}`}>
+                            {m.value}
+                          </div>
+                          <div className="font-mono text-[10px] uppercase tracking-widest text-[#8a8a93] mt-0.5">
+                            {m.label}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+
+                  <ul className="flex flex-wrap gap-1.5">
+                    {project.tags.map((tag) => (
+                      <li
                         key={tag}
                         className="font-mono text-[10px] uppercase tracking-widest text-[#8a8a93] border border-[#1a1a24] px-2 py-1"
                       >
                         {tag}
-                      </span>
+                      </li>
                     ))}
-                  </div>
+                  </ul>
                 </div>
               </motion.article>
             );
           })}
         </div>
+
+        <p className="mt-8 flex items-start gap-2 font-mono text-xs text-[#8a8a93]" data-testid="projects-note">
+          <Lock size={13} className="text-cyan flex-shrink-0 mt-0.5" />
+          {t("projects.note")}
+        </p>
       </div>
     </section>
   );

@@ -13,6 +13,8 @@ export default function Particles({ density = 0.00008, color = "0, 240, 255", co
     const ctx = canvas.getContext("2d");
     let raf;
     let particles = [];
+    let running = false;
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
     const resize = () => {
       const dpr = Math.min(window.devicePixelRatio || 1, 2);
@@ -73,14 +75,31 @@ export default function Particles({ density = 0.00008, color = "0, 240, 255", co
         }
       }
 
-      raf = requestAnimationFrame(tick);
+      // "reduzir movimento": desenha um quadro estático e para
+      if (running && !reduceMotion) raf = requestAnimationFrame(tick);
+    };
+
+    const start = () => {
+      if (running) return;
+      running = true;
+      tick();
+    };
+    const stop = () => {
+      running = false;
+      cancelAnimationFrame(raf);
     };
 
     resize();
-    tick();
+    // Só anima enquanto o canvas está na tela (o loop é O(n²) por quadro)
+    const observer = new IntersectionObserver(
+      ([entry]) => (entry.isIntersecting ? start() : stop()),
+      { threshold: 0 }
+    );
+    observer.observe(canvas);
     window.addEventListener("resize", resize);
     return () => {
-      cancelAnimationFrame(raf);
+      stop();
+      observer.disconnect();
       window.removeEventListener("resize", resize);
     };
   }, [density, color, connect]);

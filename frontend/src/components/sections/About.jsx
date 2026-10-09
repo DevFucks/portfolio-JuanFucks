@@ -1,15 +1,16 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { GraduationCap, Languages, MapPin, Sparkles } from "lucide-react";
+import { Award, GraduationCap, Languages } from "lucide-react";
 import { useLang } from "../../contexts/LangContext";
 import useReveal from "../../hooks/useReveal";
-import profilePhoto from "../../assets/images/profile.png";
+import profilePhoto from "../../assets/images/profile.webp";
 
 export default function About() {
   const { t } = useLang();
   const ref = useReveal();
 
   const stats = t("about.stats");
+  const edu = t("about.edu");
 
   return (
     <section
@@ -26,7 +27,7 @@ export default function About() {
 
         <h2
           className="font-heading font-bold uppercase tracking-tighter text-white mb-12 max-w-4xl"
-          style={{ fontSize: "clamp(2rem, 5.5vw, 4.5rem)", lineHeight: 1.05 }}
+          style={{ fontSize: "clamp(1.75rem, 5.5vw, 4.5rem)", lineHeight: 1.05 }}
           data-testid="about-title"
         >
           {t("about.title")}
@@ -44,14 +45,18 @@ export default function About() {
             <div className="relative card-neon aspect-[3/4] overflow-hidden group">
               <img
                 src={profilePhoto}
-                alt="Juan Fucks"
+                alt="Juan de Sousa Fucks"
+                width="762"
+                height="834"
+                loading="lazy"
+                decoding="async"
                 className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 mix-blend-luminosity group-hover:mix-blend-normal"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-[#030305] via-transparent to-transparent" />
               <div className="absolute inset-0 bg-cyan/10 mix-blend-overlay pointer-events-none group-hover:opacity-0 transition-opacity" />
               <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between font-mono text-[10px] uppercase tracking-[0.2em] text-cyan">
                 <span>ID·001</span>
-                <span className="text-green-neon">● ONLINE</span>
+                <span className="text-green-neon">● {t("about.photo_status")}</span>
               </div>
               {/* Corner accents */}
               <span className="absolute top-3 left-3 w-4 h-4 border-l border-t border-cyan" />
@@ -72,7 +77,7 @@ export default function About() {
             </div>
 
             {/* Stats grid */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 pt-4">
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 pt-4">
               {Object.entries(stats).map(([key, s]) => (
                 <div
                   key={key}
@@ -89,22 +94,37 @@ export default function About() {
               ))}
             </div>
 
-            {/* Education & languages */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-4">
-              <div className="card-neon p-5">
+            {/* Education, certification & languages */}
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 pt-4">
+              <div className="card-neon p-5" data-testid="about-education">
                 <div className="flex items-center gap-2 mb-3">
                   <GraduationCap size={16} className="text-cyan" />
                   <h3 className="font-mono text-xs uppercase tracking-[0.2em] text-cyan">
                     {t("about.edu_title")}
                   </h3>
                 </div>
-                <div className="text-white font-medium">{t("about.edu_degree")}</div>
-                <div className="text-[#8a8a93] text-sm mt-1">
-                  {t("about.edu_school")}
+                <div className="space-y-3">
+                  {edu.map((e) => (
+                    <div key={e.degree}>
+                      <div className="text-white font-medium text-sm">{e.degree}</div>
+                      <div className="text-[#8a8a93] text-xs mt-1">{e.school}</div>
+                    </div>
+                  ))}
                 </div>
               </div>
 
-              <div className="card-neon p-5">
+              <div className="card-neon p-5" data-testid="about-certification">
+                <div className="flex items-center gap-2 mb-3">
+                  <Award size={16} className="text-cyan" />
+                  <h3 className="font-mono text-xs uppercase tracking-[0.2em] text-cyan">
+                    {t("about.cert_title")}
+                  </h3>
+                </div>
+                <div className="text-white font-medium text-sm">{t("about.cert.name")}</div>
+                <div className="text-[#8a8a93] text-xs mt-1">{t("about.cert.issuer")}</div>
+              </div>
+
+              <div className="card-neon p-5" data-testid="about-languages">
                 <div className="flex items-center gap-2 mb-3">
                   <Languages size={16} className="text-cyan" />
                   <h3 className="font-mono text-xs uppercase tracking-[0.2em] text-cyan">
@@ -112,8 +132,8 @@ export default function About() {
                   </h3>
                 </div>
                 <div className="space-y-1">
-                  {t("about.langs").map((l, i) => (
-                    <div key={i} className="text-white text-sm font-mono">
+                  {t("about.langs").map((l) => (
+                    <div key={l} className="text-white text-sm font-mono">
                       <span className="text-cyan mr-2">→</span>
                       {l}
                     </div>

@@ -28,7 +28,7 @@ export default function Header() {
     <header
       data-testid="site-header"
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled
+        scrolled || mobileOpen
           ? "backdrop-blur-xl bg-[#030305]/80 border-b border-[#1a1a24]"
           : "bg-transparent"
       }`}
@@ -44,7 +44,7 @@ export default function Header() {
           <span className="text-cyan">{"/>"}</span>
         </a>
 
-        <nav className="hidden md:flex items-center gap-8">
+        <nav className="hidden lg:flex items-center gap-6 xl:gap-8">
           {NAV_ITEMS.map((item) => (
             <a
               key={item.key}
@@ -64,6 +64,9 @@ export default function Header() {
           <div className="relative">
             <button
               data-testid="language-toggle"
+              aria-label={t("nav.language")}
+              aria-haspopup="true"
+              aria-expanded={open}
               onClick={() => setOpen((o) => !o)}
               onBlur={() => setTimeout(() => setOpen(false), 150)}
               className="font-mono text-xs uppercase tracking-widest text-white border border-[#1a1a24] hover:border-cyan hover:text-cyan transition-all px-3 py-2 flex items-center gap-2"
@@ -102,9 +105,11 @@ export default function Header() {
           {/* Mobile menu toggle */}
           <button
             data-testid="mobile-menu-toggle"
-            className="md:hidden font-mono text-white border border-[#1a1a24] px-3 py-2 hover:border-cyan hover:text-cyan transition-all"
+            className="lg:hidden font-mono text-white border border-[#1a1a24] px-3 py-2 hover:border-cyan hover:text-cyan transition-all"
             onClick={() => setMobileOpen((m) => !m)}
-            aria-label="Toggle navigation"
+            aria-label={t("nav.menu")}
+            aria-expanded={mobileOpen}
+            aria-controls="mobile-nav"
           >
             <span className="block w-4 h-px bg-current" />
             <span className="block w-4 h-px bg-current mt-1" />
@@ -115,8 +120,9 @@ export default function Header() {
 
       {mobileOpen && (
         <nav
+          id="mobile-nav"
           data-testid="mobile-nav"
-          className="md:hidden bg-[#030305]/95 backdrop-blur-xl border-t border-[#1a1a24]"
+          className="lg:hidden bg-[#030305]/95 backdrop-blur-xl border-t border-[#1a1a24]"
         >
           <div className="px-6 py-4 flex flex-col gap-4">
             {NAV_ITEMS.map((item) => (

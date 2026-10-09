@@ -1,22 +1,35 @@
 import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { Copy, Github, Linkedin, Mail, Phone, Check } from "lucide-react";
+import { Check, Copy, Download, Github, Linkedin, Mail, Phone } from "lucide-react";
 import { useLang } from "../../contexts/LangContext";
-
-const EMAIL = "juanfuks@hotmail.com";
-const PHONE = "+5513991117406";
-const PHONE_DISPLAY = "(13) 99111-7406";
+import {
+  CV_FILES,
+  EMAIL,
+  GITHUB_HANDLE,
+  GITHUB_URL,
+  LINKEDIN_HANDLE,
+  LINKEDIN_URL,
+  PHONE,
+  PHONE_DISPLAY,
+} from "../../data/site";
 
 export default function Contact() {
-  const { t } = useLang();
+  const { t, lang } = useLang();
   const [copied, setCopied] = useState(false);
-  const [terminalLines, setTerminalLines] = useState([]);
+  const [shown, setShown] = useState(0);
 
-  const subject = encodeURIComponent("Oportunidade Dev — Portfolio");
-  const body = encodeURIComponent(
-    "Olá Juan, gostaria de conversar sobre uma oportunidade...\n\n"
-  );
-  const mailtoHref = `mailto:${EMAIL}?subject=${subject}&body=${body}`;
+  const mailtoHref = `mailto:${EMAIL}?subject=${encodeURIComponent(
+    t("contact.mail_subject")
+  )}&body=${encodeURIComponent(t("contact.mail_body"))}`;
+
+  const msgs = t("contact.terminal");
+  const lines = [
+    { prompt: "$", text: "./run-contact.sh" },
+    { prompt: ">", text: msgs[0], color: "cyan" },
+    { prompt: ">", text: `${msgs[1]} ${EMAIL}`, color: "dim" },
+    { prompt: ">", text: msgs[2], color: "green" },
+    { prompt: "$", text: msgs[3] },
+  ];
 
   const handleCopy = async () => {
     try {
@@ -28,25 +41,16 @@ export default function Contact() {
     }
   };
 
-  // Terminal simulation on view
+  // Simulação de terminal: revela uma linha por vez
   useEffect(() => {
-    const lines = [
-      { prompt: "$", text: "./run-contact.sh" },
-      { prompt: ">", text: "Initializing handshake...", color: "cyan" },
-      { prompt: ">", text: "Resolving endpoint juanfuks@hotmail.com", color: "dim" },
-      { prompt: ">", text: "Connection established ●", color: "green" },
-      { prompt: "$", text: "Ready for new opportunity." },
-    ];
-    let idx = 0;
-    setTerminalLines([]);
     const interval = setInterval(() => {
-      if (idx >= lines.length) {
-        clearInterval(interval);
-        return;
-      }
-      const next = lines[idx];
-      idx += 1;
-      setTerminalLines((prev) => [...prev, next]);
+      setShown((n) => {
+        if (n >= 5) {
+          clearInterval(interval);
+          return n;
+        }
+        return n + 1;
+      });
     }, 700);
     return () => clearInterval(interval);
   }, []);
@@ -71,8 +75,8 @@ export default function Contact() {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7 }}
             viewport={{ once: true }}
-            className="font-heading font-black uppercase tracking-tighter text-white max-w-4xl mx-auto"
-            style={{ fontSize: "clamp(2.5rem, 7vw, 5.5rem)", lineHeight: 1.02 }}
+            className="font-heading font-black uppercase tracking-tighter text-white max-w-4xl mx-auto [overflow-wrap:anywhere]"
+            style={{ fontSize: "clamp(1.45rem, 7vw, 5.5rem)", lineHeight: 1.02 }}
             data-testid="contact-title"
           >
             <span className="glitch" data-text={t("contact.title")}>
@@ -100,8 +104,8 @@ export default function Contact() {
             <span className="ml-auto text-[10px] text-[#8a8a93]">contact.sh — juan@portfolio</span>
           </div>
 
-          <div className="space-y-1.5 min-h-[160px]">
-            {terminalLines.map((line, i) => (
+          <div className="space-y-1.5 min-h-[160px]" aria-hidden="true">
+            {lines.slice(0, shown).map((line, i) => (
               <motion.div
                 key={i}
                 initial={{ opacity: 0 }}
@@ -112,7 +116,7 @@ export default function Contact() {
                   {line.prompt}
                 </span>
                 <span
-                  className={
+                  className={`min-w-0 [overflow-wrap:anywhere] ${
                     line.color === "cyan"
                       ? "text-cyan"
                       : line.color === "green"
@@ -120,13 +124,13 @@ export default function Contact() {
                       : line.color === "dim"
                       ? "text-[#8a8a93]"
                       : "text-white"
-                  }
+                  }`}
                 >
                   {line.text}
                 </span>
               </motion.div>
             ))}
-            {terminalLines.length < 5 && (
+            {shown < lines.length && (
               <div className="flex gap-2">
                 <span className="text-cyan">●</span>
                 <span className="terminal-cursor" />
@@ -144,16 +148,28 @@ export default function Contact() {
               <Mail size={16} />
               {t("contact.cta")}
             </a>
-            <button
-              data-testid="copy-email-button"
-              onClick={handleCopy}
+            <a
+              href={CV_FILES[lang] || CV_FILES.pt}
+              download
+              data-testid="contact-cv"
               className="btn-ghost justify-center"
-              aria-label="Copy email"
             >
-              {copied ? <Check size={14} className="text-green-neon" /> : <Copy size={14} />}
-              {copied ? t("contact.copied") : EMAIL}
-            </button>
+              <Download size={14} />
+              {t("contact.cv")}
+            </a>
           </div>
+          <button
+            type="button"
+            data-testid="copy-email-button"
+            onClick={handleCopy}
+            className="mt-3 w-full btn-ghost justify-center"
+            // e-mail em minúsculas (o .btn-ghost força uppercase)
+            style={{ textTransform: "none", letterSpacing: "0.04em" }}
+            aria-label={t("contact.copy")}
+          >
+            {copied ? <Check size={14} className="text-green-neon" /> : <Copy size={14} />}
+            <span aria-live="polite">{copied ? t("contact.copied") : EMAIL}</span>
+          </button>
         </motion.div>
 
         {/* Direct contacts */}
@@ -161,44 +177,44 @@ export default function Contact() {
           <a
             href={`tel:${PHONE}`}
             data-testid="contact-phone"
-            className="card-neon p-4 flex items-center gap-3 hover:text-cyan"
+            className="card-neon p-4 flex items-center gap-3"
           >
-            <Phone size={18} className="text-cyan" />
+            <Phone size={18} className="text-cyan flex-shrink-0" />
             <div>
               <div className="font-mono text-[10px] uppercase tracking-widest text-[#8a8a93]">
-                Phone
+                {t("contact.phone")}
               </div>
               <div className="text-white font-medium text-sm">{PHONE_DISPLAY}</div>
             </div>
           </a>
           <a
-            href="https://github.com/DevFucks/portfolio-JuanFucks"
+            href={GITHUB_URL}
             target="_blank"
             rel="noopener noreferrer"
             data-testid="contact-github"
             className="card-neon p-4 flex items-center gap-3"
           >
-            <Github size={18} className="text-cyan" />
+            <Github size={18} className="text-cyan flex-shrink-0" />
             <div>
               <div className="font-mono text-[10px] uppercase tracking-widest text-[#8a8a93]">
                 GitHub
               </div>
-              <div className="text-white font-medium text-sm">@juanfuks</div>
+              <div className="text-white font-medium text-sm">{GITHUB_HANDLE}</div>
             </div>
           </a>
           <a
-            href="https://www.linkedin.com/in/juan-fucks-1a8062123/?skipRedirect=true&enhance=null"
+            href={LINKEDIN_URL}
             target="_blank"
             rel="noopener noreferrer"
             data-testid="contact-linkedin"
             className="card-neon p-4 flex items-center gap-3"
           >
-            <Linkedin size={18} className="text-cyan" />
+            <Linkedin size={18} className="text-cyan flex-shrink-0" />
             <div>
               <div className="font-mono text-[10px] uppercase tracking-widest text-[#8a8a93]">
                 LinkedIn
               </div>
-              <div className="text-white font-medium text-sm">Juan de Sousa Fucks</div>
+              <div className="text-white font-medium text-sm">{LINKEDIN_HANDLE}</div>
             </div>
           </a>
         </div>

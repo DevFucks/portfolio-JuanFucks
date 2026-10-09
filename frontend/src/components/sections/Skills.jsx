@@ -1,35 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { useLang } from "../../contexts/LangContext";
-
-const SKILL_GROUPS = [
-  {
-    keyCat: "frontend",
-    items: [
-      "ReactJS", "Next.js", "React Native", "Vue", "TypeScript",
-      "JavaScript", "Redux", "Tailwind", "Bootstrap", "jQuery",
-      "Electron", "Filepond",
-    ],
-  },
-  {
-    keyCat: "backend",
-    items: ["PHP", "Laravel", "Node.js", "Express", "MySQL", "MongoDB", "Redis"],
-  },
-  {
-    keyCat: "infra",
-    items: ["Linux", "Docker", "Git", "REST APIs", "WebSockets", "Distributed Systems"],
-  },
-  {
-    keyCat: "testing",
-    items: ["Jest", "Unit Tests"],
-  },
-];
-
-const MARQUEE_WORDS = [
-  "REACT", "NEXT.JS", "TYPESCRIPT", "REACT NATIVE", "TAILWIND",
-  "LARAVEL", "NODE.JS", "WEBSOCKETS", "MONGODB", "DOCKER",
-  "REDIS", "REDUX", "MYSQL", "JEST", "GIT",
-];
+import { MARQUEE_WORDS, SKILL_GROUPS } from "../../data/skills";
 
 export default function Skills() {
   const { t } = useLang();
@@ -40,8 +12,11 @@ export default function Skills() {
       data-testid="skills-section"
       className="relative py-24 md:py-32 overflow-hidden bg-charcoal/40"
     >
-      {/* Marquee background */}
-      <div className="absolute top-12 left-0 right-0 overflow-hidden pointer-events-none select-none opacity-30">
+      {/* Marquee background (decorativo) */}
+      <div
+        aria-hidden="true"
+        className="absolute top-12 left-0 right-0 overflow-hidden pointer-events-none select-none opacity-30"
+      >
         <div className="marquee">
           {[...MARQUEE_WORDS, ...MARQUEE_WORDS].map((w, i) => (
             <span
@@ -54,7 +29,10 @@ export default function Skills() {
           ))}
         </div>
       </div>
-      <div className="absolute bottom-12 left-0 right-0 overflow-hidden pointer-events-none select-none opacity-20">
+      <div
+        aria-hidden="true"
+        className="absolute bottom-12 left-0 right-0 overflow-hidden pointer-events-none select-none opacity-20"
+      >
         <div className="marquee marquee-reverse marquee-slow">
           {[...MARQUEE_WORDS, ...MARQUEE_WORDS].map((w, i) => (
             <span
@@ -72,7 +50,7 @@ export default function Skills() {
         <div className="section-label mb-6">{t("skills.label")}</div>
         <h2
           className="font-heading font-bold uppercase tracking-tighter text-white mb-4"
-          style={{ fontSize: "clamp(2rem, 5.5vw, 4.5rem)", lineHeight: 1.05 }}
+          style={{ fontSize: "clamp(1.75rem, 5.5vw, 4.5rem)", lineHeight: 1.05 }}
           data-testid="skills-title"
         >
           {t("skills.title")}
@@ -87,8 +65,8 @@ export default function Skills() {
               key={group.keyCat}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: idx * 0.1 }}
-              viewport={{ once: true, amount: 0.3 }}
+              transition={{ duration: 0.6, delay: (idx % 2) * 0.1 }}
+              viewport={{ once: true, amount: 0.2 }}
               data-testid={`skills-group-${group.keyCat}`}
               className="card-neon p-7"
             >
@@ -97,20 +75,20 @@ export default function Skills() {
                   {t(`skills.categories.${group.keyCat}`)}
                 </h3>
                 <span className="font-mono text-[10px] text-[#8a8a93]">
-                  {String(idx + 1).padStart(2, "0")} / {SKILL_GROUPS.length.toString().padStart(2, "0")}
+                  {String(idx + 1).padStart(2, "0")} / {String(SKILL_GROUPS.length).padStart(2, "0")}
                 </span>
               </div>
-              <div className="flex flex-wrap gap-2">
+              <ul className="flex flex-wrap gap-2">
                 {group.items.map((skill) => (
-                  <span
+                  <li
                     key={skill}
                     className="skill-pill"
-                    data-testid={`skill-${skill.toLowerCase().replace(/[^a-z0-9]/g, "-")}`}
+                    data-testid={`skill-${skill.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "")}`}
                   >
                     {skill}
-                  </span>
+                  </li>
                 ))}
-              </div>
+              </ul>
             </motion.div>
           ))}
         </div>

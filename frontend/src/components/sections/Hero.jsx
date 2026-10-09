@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { ArrowDown, Github, Linkedin, Mail } from "lucide-react";
+import { ArrowDown, Download, Github, Linkedin, Mail } from "lucide-react";
 import Particles from "../Particles";
 import { useLang } from "../../contexts/LangContext";
+import { CV_FILES, EMAIL, GEO, GITHUB_URL, LINKEDIN_URL } from "../../data/site";
 
 export default function Hero() {
-  const { t } = useLang();
+  const { t, lang } = useLang();
   const [typed, setTyped] = useState("");
   const fullRole = t("hero.role");
 
@@ -24,7 +25,7 @@ export default function Hero() {
     <section
       id="home"
       data-testid="hero-section"
-      className="relative min-h-screen flex items-center pt-20 pb-12 overflow-hidden bg-grid-fade"
+      className="relative min-h-screen flex items-center pt-24 pb-16 lg:pb-24 overflow-hidden bg-grid-fade"
     >
       <Particles />
       {/* Decorative blurs */}
@@ -70,11 +71,16 @@ export default function Hero() {
               className="font-heading font-black uppercase tracking-tighter leading-[0.9] text-white"
               style={{ fontSize: "clamp(2.5rem, 8vw, 6.5rem)" }}
             >
-              <span className="glitch block" data-text="Juan">
-                Juan
+              {/* .glitch é inline-block: o wrapper `block` garante uma linha por nome em qualquer largura */}
+              <span className="block">
+                <span className="glitch" data-text="Juan">
+                  Juan
+                </span>
               </span>
-              <span className="block text-cyan text-glow-cyan glitch" data-text="Fucks.">
-                Fucks.
+              <span className="block">
+                <span className="glitch text-cyan text-glow-cyan" data-text="Fucks.">
+                  Fucks.
+                </span>
               </span>
             </motion.h1>
 
@@ -124,6 +130,15 @@ export default function Hero() {
                 {t("hero.cta_secondary")}
                 <ArrowDown size={14} className="rotate-[-45deg]" />
               </a>
+              <a
+                href={CV_FILES[lang] || CV_FILES.pt}
+                download
+                data-testid="hero-cta-cv"
+                className="btn-ghost"
+              >
+                <Download size={14} />
+                {t("hero.cta_cv")}
+              </a>
             </motion.div>
 
             {/* Socials */}
@@ -134,7 +149,7 @@ export default function Hero() {
               className="mt-10 flex items-center gap-6"
             >
               <a
-                href="https://github.com/DevFucks/portfolio-JuanFucks"
+                href={GITHUB_URL}
                 target="_blank"
                 rel="noopener noreferrer"
                 data-testid="hero-github"
@@ -144,7 +159,7 @@ export default function Hero() {
                 GitHub
               </a>
               <a
-                href="https://www.linkedin.com/in/juan-fucks-1a8062123/?skipRedirect=true&enhance=null"
+                href={LINKEDIN_URL}
                 target="_blank"
                 rel="noopener noreferrer"
                 data-testid="hero-linkedin"
@@ -154,7 +169,7 @@ export default function Hero() {
                 LinkedIn
               </a>
               <a
-                href="mailto:juanfuks@hotmail.com"
+                href={`mailto:${EMAIL}`}
                 data-testid="hero-email"
                 className="text-[#8a8a93] hover:text-cyan transition-colors flex items-center gap-2 font-mono text-xs uppercase tracking-widest"
               >
@@ -182,9 +197,11 @@ export default function Hero() {
                 <div><span className="text-green-neon">$</span> whoami</div>
                 <div className="text-white">juan_de_sousa_fucks</div>
                 <div><span className="text-green-neon">$</span> cat role.txt</div>
-                <div className="text-cyan">Frontend / Full Stack Developer</div>
+                <div className="text-cyan">full_stack --focus=frontend</div>
                 <div><span className="text-green-neon">$</span> location</div>
-                <div className="text-white">São Paulo · 🇧🇷</div>
+                <div className="text-white">{t("hero.location")}</div>
+                <div><span className="text-green-neon">$</span> experience --years</div>
+                <div className="text-white">4+ (2022 → 2026)</div>
                 <div><span className="text-green-neon">$</span> stack --primary</div>
                 <div className="text-white flex flex-wrap gap-1">
                   <span className="text-cyan">React</span>·
@@ -201,26 +218,26 @@ export default function Hero() {
 
             {/* Floating coords */}
             <div className="mt-6 flex justify-between font-mono text-[10px] text-[#8a8a93]">
-              <span>LAT -23.55</span>
-              <span>LON -46.63</span>
+              <span>LAT {GEO.lat}</span>
+              <span>LON {GEO.lon}</span>
               <span className="text-cyan">SYS·OK</span>
             </div>
           </motion.div>
         </div>
-
-        {/* Scroll indicator */}
-        <motion.a
-          href="#about"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1.4, duration: 0.8 }}
-          className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 font-mono text-[10px] uppercase tracking-[0.3em] text-[#8a8a93] hover:text-cyan transition-colors"
-          data-testid="scroll-indicator"
-        >
-          <span>{t("hero.scroll")}</span>
-          <ArrowDown size={14} className="animate-bounce" />
-        </motion.a>
       </div>
+
+      {/* Scroll indicator */}
+      <motion.a
+        href="#about"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1.4, duration: 0.8 }}
+        className="hidden lg:flex absolute z-10 bottom-6 left-1/2 -translate-x-1/2 flex-col items-center gap-2 font-mono text-[10px] uppercase tracking-[0.3em] text-[#8a8a93] hover:text-cyan transition-colors"
+        data-testid="scroll-indicator"
+      >
+        <span>{t("hero.scroll")}</span>
+        <ArrowDown size={14} className="animate-bounce" />
+      </motion.a>
     </section>
   );
 }

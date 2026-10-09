@@ -1,6 +1,8 @@
 import React, { createContext, useContext, useEffect, useMemo, useState } from "react";
 import { translations, LANGS } from "../i18n/translations";
 
+const STORAGE_KEY = "portfolio.lang";
+
 const LangContext = createContext({
   lang: "pt",
   setLang: () => {},
@@ -8,10 +10,19 @@ const LangContext = createContext({
   langs: LANGS,
 });
 
+// localStorage pode lançar erro (aba anônima, cookies bloqueados) — nunca quebrar o render por isso
+const readSaved = () => {
+  try {
+    return window.localStorage.getItem(STORAGE_KEY);
+  } catch (e) {
+    return null;
+  }
+};
+
 export const LangProvider = ({ children }) => {
   const [lang, setLang] = useState(() => {
     if (typeof window !== "undefined") {
-      const saved = window.localStorage.getItem("portfolio.lang");
+      const saved = readSaved();
       if (saved && translations[saved]) return saved;
       const browser = (window.navigator.language || "pt").slice(0, 2).toLowerCase();
       if (translations[browser]) return browser;
@@ -20,10 +31,19 @@ export const LangProvider = ({ children }) => {
   });
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      window.localStorage.setItem("portfolio.lang", lang);
-      document.documentElement.lang = lang;
+    if (typeof window === "undefined") return;
+    try {
+      window.localStorage.setItem(STORAGE_KEY, lang);
+    } catch (e) {
+      // noop
     }
+    const dict = translations[lang] || translations.pt;
+    // Mantém <html lang>, título e descrição coerentes com o idioma ativo
+    document.documentElement.lang = LANGS.find((l) => l.code === lang)?.htmlLang || "pt-BR";
+    document.title = dict.meta.title;
+    document
+      .querySelector('meta[name="description"]')
+      ?.setAttribute("content", dict.meta.description);
   }, [lang]);
 
   const t = useMemo(() => {

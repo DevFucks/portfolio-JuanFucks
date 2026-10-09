@@ -13,6 +13,14 @@ module.exports = {
         sm: 'calc(var(--radius) - 4px)'
       },
       colors: {
+        // Paleta neon do design system. Sem isto, classes como bg-cyan/10,
+        // hover:text-cyan e bg-green-neon não geravam CSS nenhum.
+        void: '#030305',
+        charcoal: '#0c0c10',
+        cyan: '#00f0ff',
+        magenta: '#ff003c',
+        'green-neon': '#39ff14',
+        'text-dim': '#8a8a93',
         background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',
         card: {

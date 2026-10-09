@@ -57,6 +57,12 @@
   border-color: hsl(var(--border));
 }
 
+html {
+  scroll-behavior: smooth;
+  /* compensa o header fixo ao navegar pelas âncoras */
+  scroll-padding-top: 4.5rem;
+}
+
 html, body {
   background-color: var(--void);
   color: var(--text);
@@ -106,7 +112,7 @@ body {
 /* ===== Glitch text effect ===== */
 .glitch {
   position: relative;
-  color: var(--text);
+  /* sem `color` aqui: herda do elemento (permite text-cyan no sobrenome do Hero) */
   display: inline-block;
   letter-spacing: -0.02em;
 }
@@ -492,3 +498,31 @@ a, button { cursor: none; }
 /* ===== Hide scroll bar for marquee container ===== */
 .no-scrollbar::-webkit-scrollbar { display: none; }
 .no-scrollbar { scrollbar-width: none; }
+
+/* ===== Foco visível para navegação por teclado ===== */
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid var(--cyan);
+  outline-offset: 3px;
+}
+
+/* ===== Capas dos projetos ===== */
+.project-cover svg { display: block; }
+
+/* ===== Acessibilidade: respeita "reduzir movimento" do sistema ===== */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .glitch::before,
+  .glitch::after,
+  .marquee,
+  .terminal-cursor,
+  .animate-ping,
+  .animate-bounce,
+  .animate-pulse {
+    animation: none !important;
+  }
+  .glitch::before,
+  .glitch::after { display: none; }
+  .reveal { opacity: 1; transform: none; transition: none; }
+  .card-neon:hover { transform: none; }
+}
